@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>找到值得投入的方向</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <section id="intro-view" class="view intro-view">
+        <div class="eyebrow">DIRECTION EXPLORER</div>
+        <h1>找到值得投入的方向</h1>
+        <p class="lead">
+          不是替你宣布一个“天职”，而是从你的价值观、才能和愿望里，找出几个值得亲自尝试的方向。
+        </p>
+        <div class="intro-note">
+          <span class="note-mark">✦</span>
+          <span>你的答案不需要正确。先从真实的自己开始。</span>
+        </div>
+        <button id="start-button" class="primary-button">开始探索</button>
+        <p class="microcopy">15 个问题 · 约 8 分钟 · 内容只保存在你的浏览器里</p>
+      </section>
+
+      <section id="question-view" class="view hidden">
+        <header class="question-header">
+          <button id="back-button" class="text-button">← 返回</button>
+          <div class="progress-copy"><span id="question-number">1</span> / 15</div>
+          <div class="progress-track"><div id="progress-bar" class="progress-bar"></div></div>
+        </header>
+        <div class="question-area">
+          <div id="category-label" class="eyebrow">价值观</div>
+          <h2 id="question-title"></h2>
+          <p id="question-hint" class="question-hint"></p>
+          <textarea id="answer-input" rows="7" placeholder="写下你真实想到的内容，不用组织得很完美"></textarea>
+          <div class="question-actions">
+            <button id="skip-button" class="text-button">暂时跳过</button>
+            <button id="next-button" class="primary-button">下一题 →</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="results-view" class="view hidden">
+        <div class="eyebrow">YOUR DIRECTION MATERIALS</div>
+        <h1>这是你暂时呈现出的方向</h1>
+        <p class="lead result-lead">
+          下面不是最终答案，只是从你的回答里整理出的几种可能。你可以先选择一个，在现实生活中试试看。
+        </p>
+        <div id="result-content"></div>
+        <div class="result-actions">
+          <button id="restart-button" class="secondary-button">重新探索</button>
+          <button id="copy-button" class="primary-button">复制我的结果</button>
+        </div>
+      </section>
+    </main>
+    <script src="app.js"></script>
+  </body>
+</html>
