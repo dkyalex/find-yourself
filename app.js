@@ -76,8 +76,12 @@ function skip() {
   next();
 }
 
+function textFor(category) {
+  return questions.map((q, i) => q.category === category ? (state.answers[i] || "") : "").join(" ");
+}
+
 function wordsFor(category) {
-  const text = questions.map((q, i) => q.category === category ? (state.answers[i] || "") : "").join(" ");
+  const text = textFor(category);
   const themes = [
     ["创造", "表达", "音乐", "写", "画", "设计", "作品", "艺术"],
     ["理解", "学习", "研究", "语言", "阅读", "思考", "分析", "知识"],
@@ -94,26 +98,79 @@ function fallback(category) {
   return text.length > 54 ? `${text.slice(0, 54)}……` : text;
 }
 
-function renderResults() {
+function directionMaterials() {
   const values = wordsFor("价值观");
   const talents = wordsFor("才能");
   const wishes = wordsFor("愿望");
-  const signals = [...new Set([...values, ...talents, ...wishes])];
+  const signals = [...new Set([...talents, ...wishes])];
   const themes = signals.length ? signals : ["探索", "成长", "表达"];
-  const directions = [
-    `把${themes[0]}变成可以持续实践的作品或项目`,
-    `通过${themes[1] || "学习"}和真实经验，逐渐建立自己的能力`,
-    `在${themes[2] || "人与世界"}之间创造连接，并观察自己是否因此感到鲜活`
+  const matches = [
+    { id: "create", title: `${themes[0]} × ${themes[1] || "表达"}`, body: "把你已经表现出的能力，放进一个你想亲自完成或体验的方向里。" },
+    { id: "learn", title: `${themes[1] || "学习"} × ${themes[2] || "探索"}`, body: "通过持续学习和真实实验，看看某种兴趣能否逐渐变成能力。" },
+    { id: "connect", title: `${themes[2] || "连接"} × ${themes[0] || "创造"}`, body: "把你的愿望和能力带到人与世界之间，形成具体的连接。" }
   ];
+  return { values, talents, wishes, matches };
+}
+
+function renderResults() {
+  const { values, talents, wishes, matches } = directionMaterials();
+  const material = (title, content) => `<div class="material"><strong>${title}</strong><span>${content.length ? content.join(" · ") : fallback(title === "才能线索" ? "才能" : title === "愿望线索" ? "愿望" : "价值观")}</span></div>`;
   $("result-content").innerHTML = `
-    <div class="material-grid">
-      <div class="material"><strong>价值观线索</strong><span>${values.length ? values.join(" · ") : fallback("价值观")}</span></div>
-      <div class="material"><strong>才能线索</strong><span>${talents.length ? talents.join(" · ") : fallback("才能")}</span></div>
-      <div class="material"><strong>愿望线索</strong><span>${wishes.length ? wishes.join(" · ") : fallback("愿望")}</span></div>
-    </div>
-    <h2 class="result-heading">三个可以亲自验证的方向</h2>
-    ${directions.map((direction, i) => `<article class="result-card"><h3>${i + 1}. ${direction}</h3><p>这不是结论。先用一个小行动试一试，再观察它是否真的值得你投入时间。</p></article>`).join("")}
+    <section class="analysis-step">
+      <div class="step-heading"><span class="step-number">01</span><h2>先看才能和愿望</h2></div>
+      <p class="step-description">我们先不问什么“应该”重要。先看你已经表现出来的能力，和你持续被吸引的事情。</p>
+      <div class="material-list">${material("才能线索", talents)}${material("愿望线索", wishes)}</div>
+    </section>
+    <section class="analysis-step">
+      <div class="step-heading"><span class="step-number">02</span><h2>你觉得哪些能够连在一起？</h2></div>
+      <p class="step-description">下面是系统根据才能和愿望提出的可能连接。请亲自勾选你觉得确实有感觉的，不认同的可以不选。</p>
+      <div id="match-list">${matches.map((match) => `<label class="match-card"><span><strong>${match.title}</strong><p>${match.body}</p></span><span class="match-check"><input type="checkbox" data-match="${match.id}" checked />我认同</span></label>`).join("")}</div>
+    </section>
+    <section class="analysis-step">
+      <div class="step-heading"><span class="step-number">03</span><h2>从连接里形成方向</h2></div>
+      <p class="step-description">这些方向不是测试结果，而是把前一步你认可的连接变成可以亲自验证的可能性。</p>
+      <div id="direction-list">${matches.map((match, i) => `<label class="direction-choice"><input type="checkbox" data-direction="${match.id}" checked /><span><strong>${i + 1}. ${match.title}方向</strong><p>把这组能力和愿望变成一个可以持续尝试的作品、学习路径或生活实践。</p></span></label>`).join("")}</div>
+    </section>
+    <section class="analysis-step">
+      <div class="step-heading"><span class="step-number">04</span><h2>最后用价值观筛选</h2></div>
+      <p class="step-description">价值观不是用来替你生成方向的，而是帮助你判断：哪些可能性值得进入你的生命。</p>
+      <div id="value-filter-list">${matches.map((match, i) => `<div class="value-filter" data-filter="${match.id}"><p><strong>${i + 1}. ${match.title}方向</strong><br />它是否符合你在乎的东西，并且是你愿意承担的选择？</p><div class="value-buttons"><button class="value-button active" data-value="keep">保留</button><button class="value-button" data-value="maybe">再观察</button><button class="value-button" data-value="drop">暂不考虑</button></div></div>`).join("")}</div>
+    </section>
+    <section class="analysis-step">
+      <div class="step-heading"><span class="step-number">05</span><h2>你的暂时选择</h2></div>
+      <p class="step-description">你不需要找到人生唯一答案。先选一个愿意用 7 天或 30 天亲自验证的方向。</p>
+      <div id="final-directions"></div>
+    </section>
   `;
+  bindAnalysisControls(matches, values);
+  updateFinalDirections(matches, values);
+}
+
+function bindAnalysisControls(matches, values) {
+  document.querySelectorAll("[data-match]").forEach((input) => input.addEventListener("change", () => {
+    const direction = document.querySelector(`[data-direction="${input.dataset.match}"]`);
+    if (direction) direction.checked = input.checked;
+    updateFinalDirections(matches, values);
+  }));
+  document.querySelectorAll("[data-direction]").forEach((input) => input.addEventListener("change", () => updateFinalDirections(matches, values)));
+  document.querySelectorAll("[data-filter]").forEach((card) => card.querySelectorAll("[data-value]").forEach((button) => button.addEventListener("click", () => {
+    card.querySelectorAll("[data-value]").forEach((item) => item.classList.remove("active"));
+    button.classList.add("active");
+    card.dataset.status = button.dataset.value;
+    updateFinalDirections(matches, values);
+  })));
+}
+
+function updateFinalDirections(matches, values) {
+  const selected = Array.from(document.querySelectorAll("[data-direction]:checked")).map((input) => input.dataset.direction);
+  const final = matches.filter((match) => selected.includes(match.id) && (document.querySelector(`[data-filter="${match.id}"]`)?.dataset.status || "keep") !== "drop");
+  const container = $("final-directions");
+  if (!final.length) {
+    container.innerHTML = `<p class="step-description">目前没有保留的方向。你可以回到上面重新选择；暂时没有答案也是一种诚实的结果。</p>`;
+    return;
+  }
+  const valueText = values.length ? `它与你提到的价值线索（${values.join("、")}）有一定联系。` : "再观察它是否真的符合你在乎的东西。";
+  container.innerHTML = final.map((match) => `<div class="final-direction"><strong>${match.title}方向</strong><span>${valueText} 下一步：用一个小行动验证它，而不是马上对它做终身承诺。</span></div>`).join("");
 }
 
 function restart() {
