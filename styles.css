@@ -65,6 +65,12 @@ button { border: 0; font: inherit; cursor: pointer; }
 .progress-track { height: 5px; margin-top: 10px; overflow: hidden; border-radius: 99px; background: var(--line); }
 .progress-bar { height: 100%; width: 6.66%; border-radius: inherit; background: var(--accent); transition: width .25s ease; }
 .question-area { width: min(100%, 660px); margin: 0 auto; padding: 8vh 4vw; }
+.question-title-row { display: flex; align-items: flex-start; gap: 16px; }
+.question-title-row h2 { flex: 1; }
+.help-button { flex: 0 0 auto; width: 32px; height: 32px; margin-top: 22px; border: 1px solid var(--line); border-radius: 50%; color: var(--accent-dark); background: rgba(255,255,255,.7); font-weight: 700; }
+.help-button:hover, .help-button[aria-expanded="true"] { color: white; border-color: var(--accent); background: var(--accent); }
+.help-panel { margin-top: 18px; padding: 16px 18px; border-left: 3px solid var(--warm); border-radius: 0 12px 12px 0; color: #5f6d75; background: rgba(255,255,255,.62); line-height: 1.65; }
+.help-panel strong { color: var(--accent-dark); }
 .question-hint { color: var(--muted); line-height: 1.6; }
 textarea { width: 100%; resize: vertical; margin-top: 22px; padding: 18px; border: 1px solid var(--line); border-radius: 16px; outline: none; color: var(--ink); background: rgba(255,255,255,.78); font: inherit; font-size: 17px; line-height: 1.65; }
 textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 4px rgba(85,123,102,.1); }

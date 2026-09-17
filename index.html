@@ -14,11 +14,7 @@
         <p class="lead">
           从你的愿望和才能里找出可能的方向，再用你真正重视的东西筛选它们。
         </p>
-        <div class="intro-note">
-          <span class="note-mark">✦</span>
-          <span>雨会落下来，云也会哭泣。先让自己被自己听见。</span>
-        </div>
-        <button id="start-button" class="primary-button">开始探索</button>
+        <button id="start-button" class="primary-button">点这里，一起找到自己</button>
         <button id="resume-button" class="secondary-button hidden">查看上次结果</button>
         <p class="microcopy">15 个问题 · 约 8 分钟 · 结果保存在你的浏览器里</p>
       </section>
@@ -31,8 +27,12 @@
         </header>
         <div class="question-area">
           <div id="category-label" class="eyebrow">价值观</div>
-          <h2 id="question-title"></h2>
+          <div class="question-title-row">
+            <h2 id="question-title"></h2>
+            <button id="question-help-button" class="help-button" aria-expanded="false" aria-controls="question-help">?</button>
+          </div>
           <p id="question-hint" class="question-hint"></p>
+          <div id="question-help" class="help-panel hidden"></div>
           <textarea id="answer-input" rows="7" placeholder="写下你真实想到的内容，不用组织得很完美"></textarea>
           <div class="question-actions">
             <button id="skip-button" class="text-button">暂时跳过</button>
@@ -42,7 +42,7 @@
       </section>
 
       <section id="results-view" class="view hidden">
-        <div class="eyebrow">YOUR DIRECTION MATERIALS</div>
+        <div class="eyebrow">FIND YOURSELF</div>
         <h1>一起把方向找出来</h1>
         <p class="lead result-lead">
           先看愿望和才能的交集，再用价值观筛选职业和人生方向。每一步都可以修改。

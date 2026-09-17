@@ -16,6 +16,24 @@ const questions = [
   { category: "愿望", prompt: "你对这个世界有什么不满或愤怒？", hint: "愤怒不一定要被消除，它可能在保护某种重要的价值。" }
 ];
 
+const questionHelp = [
+  { meaning: "这道题不是让你列出名人，而是观察你被什么样的人吸引。你欣赏的品质，可能就是你想靠近或实践的价值。", example: "比如：你尊敬一个诚实、能把复杂事情讲清楚的人，不只是因为他的职业，而是因为你在意真实和理解。" },
+  { meaning: "回想那些改变你兴趣、性格或看世界方式的经历。重点不是事情有多传奇，而是它在你身上留下了什么。", example: "比如：某段友谊让你意识到真实关系的重要，某本书让你开始关注心理学。" },
+  { meaning: "你对环境的不满，常常反过来说明你希望世界具有什么。不要急着证明自己正确，只描述你真正在意的缺失。", example: "比如：你不喜欢人与人只剩下点头之交，这可能说明你重视附近、信任和真实连接。" },
+  { meaning: "这道题借用别人的视角，帮助你看到自己可能习以为常的特点。你可以写朋友真正说过的话，也可以写自己的猜测。", example: "比如：朋友会来找你分析问题，说明你可能擅长倾听、理解和组织复杂信息。" },
+  { meaning: "你给别人的建议，往往也是你相信的生活原则。注意你反复想传达的不是具体技巧，而是什么态度。", example: "比如：你总劝别人放轻松、不要过度担心，可能说明你重视自由、适度和减少不必要的内耗。" },
+  { meaning: "充实不等于忙，也不等于结果漂亮。回想一段你在过程中就感到投入、有能量、像在过自己生活的经历。", example: "比如：和朋友共同做事、采访别人、完成一个作品，都可能比一次高分更能说明你的才能。" },
+  { meaning: "不耐烦可以是一种线索：它可能说明某件事违背了你的边界，也可能说明你对某种问题特别敏感。", example: "比如：你对别人不认真听人说话很不耐烦，可能说明你重视理解和真诚交流。" },
+  { meaning: "不要只写正式技能，也可以写别人为什么愿意来找你。别人反复交给你的问题，通常提供了关于你能力的现实证据。", example: "比如：别人找你讲题、分析感情问题或倾听烦恼，说明你可能有分析、解释和陪伴的能力。" },
+  { meaning: "把已经完成过的事情作为证据，而不是用来炫耀。我们想知道你在什么条件下能够坚持、思考并把事情做完。", example: "比如：完成一个研究项目、学会一门语言、组织一个活动，都可以拆开看你具体贡献了什么。" },
+  { meaning: "先暂时放下现实限制，写下你想亲自试试的事情。愿望不等于承诺，只是值得验证的方向线索。", example: "比如：做播客、学心理咨询、做软件、创作音乐，都可以先写下来，不用马上判断能不能谋生。" },
+  { meaning: "这道题问的是你愿意投入成本的好奇心。愿意花钱和时间学习，通常比一句“我觉得有趣”更能说明愿望的强度。", example: "比如：你愿意付费学乐器、语言、编程或某种研究方法。" },
+  { meaning: "你长期主动接触的内容，可能比你口头上说的目标更能暴露你的兴趣结构。可以写书，也可以写音乐、频道和电影。", example: "比如：书架里反复出现心理学、文学、社会观察或创作类内容。" },
+  { meaning: "这里的“帮助”不一定是宗教意义上的救赎，而是那些曾经让你重新理解自己、获得力量或改变方向的内容。", example: "比如：某首歌让你改变对人生的态度，某本书让你开始认真面对拖延或关系。" },
+  { meaning: "感谢的对象显示了什么曾经滋养你，也可能暗示你想把什么继续传递给别人。不要只写最正式的答案。", example: "比如：感谢朋友给你的陪伴，也感谢音乐、运动、老师或某个让你保持好奇的环境。" },
+  { meaning: "愤怒和不满可以作为价值观线索。不是要你写一篇社会批判，而是找出：什么事情让你觉得不应该这样。", example: "比如：你对人与人被技术隔离感到不满，可能说明你重视真实关系、共同体和附近。" }
+];
+
 const ANSWERS_KEY = "direction-explorer-answers";
 const SUBMITTED_KEY = "direction-explorer-submitted-answers";
 const state = { index: 0, answers: JSON.parse(localStorage.getItem(ANSWERS_KEY) || "{}") };
@@ -35,9 +53,19 @@ function renderQuestion() {
   $("category-label").textContent = question.category;
   $("question-title").textContent = question.prompt;
   $("question-hint").textContent = question.hint;
+  $("question-help").classList.add("hidden");
+  $("question-help-button").setAttribute("aria-expanded", "false");
   $("answer-input").value = state.answers[state.index] || "";
   $("progress-bar").style.width = `${((state.index + 1) / questions.length) * 100}%`;
   $("back-button").style.visibility = state.index === 0 ? "hidden" : "visible";
+}
+
+function toggleQuestionHelp() {
+  const help = questionHelp[state.index];
+  const panel = $("question-help");
+  const open = panel.classList.toggle("hidden");
+  $("question-help-button").setAttribute("aria-expanded", String(!open));
+  panel.innerHTML = `<strong>怎么理解：</strong> ${help.meaning}<br /><strong>例如：</strong> ${help.example}`;
 }
 
 function start() {
@@ -254,6 +282,7 @@ $("start-button").addEventListener("click", start);
 $("next-button").addEventListener("click", next);
 $("back-button").addEventListener("click", previous);
 $("skip-button").addEventListener("click", skip);
+$("question-help-button").addEventListener("click", toggleQuestionHelp);
 $("restart-button").addEventListener("click", restart);
 $("view-answers-button").addEventListener("click", showAnswers);
 $("copy-button").addEventListener("click", copyResults);
