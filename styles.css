@@ -78,6 +78,39 @@ textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 4px rgba(85,123,
 .result-actions { justify-content: flex-end; flex-wrap: wrap; }
 
 .result-lead { margin-bottom: 30px; }
+.results-nav { display: flex; gap: 8px; margin: 24px 0 8px; padding-bottom: 10px; border-bottom: 1px solid var(--line); overflow-x: auto; }
+.results-tab { padding: 10px 14px; border: 1px solid transparent; border-radius: 999px; color: var(--muted); background: transparent; white-space: nowrap; font-weight: 700; }
+.results-tab:hover { color: var(--accent-dark); background: rgba(255,255,255,.55); }
+.results-tab.active { color: white; background: var(--accent); }
+.summary-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 18px 0; }
+.summary-card { min-height: 190px; padding: 20px; border: 1px solid var(--line); border-radius: 18px; background: rgba(255,255,255,.68); }
+.summary-card h3 { margin: 0 0 10px; color: var(--accent-dark); }
+.summary-card p { color: #5f6d75; line-height: 1.6; white-space: pre-wrap; }
+.keyword-row { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0 14px; }
+.keyword { padding: 5px 9px; border-radius: 999px; color: var(--accent-dark); background: #e2edf0; font-size: 13px; }
+.life-card { padding: 22px; margin: 14px 0; border-left: 3px solid var(--warm); border-radius: 0 16px 16px 0; background: rgba(255,255,255,.68); }
+.life-card h3 { margin: 0 0 8px; }
+.life-card p { margin: 0; color: #5f6d75; white-space: pre-wrap; line-height: 1.65; }
+.career-grid { display: grid; gap: 14px; margin-top: 18px; }
+.career-card { padding: 20px; border: 1px solid var(--line); border-radius: 18px; background: rgba(255,255,255,.68); }
+.career-card.selected { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(79,120,138,.11); }
+.career-top { display: flex; gap: 14px; align-items: flex-start; }
+.career-top input { width: 19px; height: 19px; margin-top: 4px; accent-color: var(--accent); }
+.career-top h3 { margin: 0 0 6px; font-size: 21px; }
+.career-card p { margin: 7px 0 0; color: #5f6d75; line-height: 1.6; }
+.career-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px; }
+.career-meta div { padding: 12px; border-radius: 12px; background: rgba(234,242,244,.7); }
+.career-meta strong { display: block; margin-bottom: 4px; color: var(--accent-dark); font-size: 12px; }
+.comparison-card { padding: 20px; margin: 14px 0; border: 1px solid var(--line); border-radius: 18px; background: rgba(255,255,255,.68); }
+.comparison-card h3 { margin: 0 0 14px; font-size: 22px; }
+.value-comparison { padding: 14px 0; border-top: 1px solid var(--line); }
+.value-comparison:first-of-type { border-top: 0; }
+.value-comparison-header { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.fit-label { color: var(--accent-dark); font-weight: 700; }
+.fit-bar { height: 7px; margin: 8px 0; overflow: hidden; border-radius: 99px; background: #e1eaed; }
+.fit-fill { height: 100%; border-radius: inherit; background: var(--accent); }
+.value-comparison p { margin: 0; color: #5f6d75; line-height: 1.6; }
+.research-note { margin: 16px 0; padding: 14px 16px; border: 1px dashed #b8cdd3; border-radius: 14px; color: #60727a; background: rgba(255,255,255,.45); line-height: 1.6; }
 .analysis-step { margin: 34px 0 0; padding-top: 28px; border-top: 1px solid var(--line); }
 .step-heading { display: flex; align-items: baseline; gap: 10px; margin-bottom: 14px; }
 .step-number { color: var(--accent); font-size: 13px; font-weight: 700; letter-spacing: .08em; }
@@ -120,6 +153,8 @@ textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 4px rgba(85,123,
   .question-area { padding: 7vh 2vw; }
   .material-grid { grid-template-columns: 1fr; }
   .material-list { grid-template-columns: 1fr; }
+  .summary-grid { grid-template-columns: 1fr; }
+  .career-meta { grid-template-columns: 1fr; }
   .match-card, .value-filter { align-items: flex-start; flex-direction: column; }
   .question-actions, .result-actions { align-items: stretch; flex-direction: column-reverse; }
   .question-actions .text-button { align-self: center; }
