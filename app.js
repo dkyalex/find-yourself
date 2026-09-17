@@ -117,7 +117,12 @@ function skip() { saveCurrent(); next(); }
 
 function categoryText(category) { return questions.map((q, i) => q.category === category ? (state.answers[i] || "") : "").join(" "); }
 function allText() { return Object.values(state.answers).join(" "); }
-function snippet(category) { const item = questions.map((q, i) => ({ q, a: state.answers[i] || "" })).find((x) => x.q.category === category && x.a.trim()); return item ? (item.a.length > 220 ? `${item.a.slice(0, 220)}……` : item.a) : "暂时没有留下足够的文字证据。"; }
+function snippet(category) {
+  const answers = questions.map((q, i) => state.answers[i] || "").filter((answer, i) => questions[i].category === category && answer.trim());
+  if (!answers.length) return "暂时没有留下足够的文字证据。";
+  const combined = answers.slice(0, 3).join("\n\n");
+  return combined.length > 620 ? `${combined.slice(0, 620)}……` : combined;
+}
 function detectThemes(text) { return themeProfiles.map((p) => ({ name: p.name, score: p.cues.reduce((n, cue) => n + (text.includes(cue) ? 1 : 0), 0) })).filter((x) => x.score > 0).sort((a, b) => b.score - a.score).map((x) => x.name); }
 function detectValues(text) { return valueMap.map((v) => ({ ...v, score: v.cues.reduce((n, cue) => n + (text.includes(cue) ? 1 : 0), 0) })).filter((v) => v.score > 0).sort((a, b) => b.score - a.score); }
 
