@@ -3,23 +3,24 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>找到值得投入的方向</title>
+    <title>找自己</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
     <main class="shell">
       <section id="intro-view" class="view intro-view">
-        <div class="eyebrow">DIRECTION EXPLORER</div>
-        <h1>找到值得投入的方向</h1>
+        <div class="eyebrow">FIND YOURSELF</div>
+        <h1>找自己</h1>
         <p class="lead">
-          不是替你宣布一个“天职”，而是从你的价值观、才能和愿望里，找出几个值得亲自尝试的方向。
+          从你的愿望和才能里找出可能的方向，再用你真正重视的东西筛选它们。
         </p>
         <div class="intro-note">
           <span class="note-mark">✦</span>
-          <span>你的答案不需要正确。先从真实的自己开始。</span>
+          <span>雨会落下来，云也会哭泣。先让自己被自己听见。</span>
         </div>
         <button id="start-button" class="primary-button">开始探索</button>
-        <p class="microcopy">15 个问题 · 约 8 分钟 · 内容只保存在你的浏览器里</p>
+        <button id="resume-button" class="secondary-button hidden">查看上次结果</button>
+        <p class="microcopy">15 个问题 · 约 8 分钟 · 结果保存在你的浏览器里</p>
       </section>
 
       <section id="question-view" class="view hidden">
@@ -44,12 +45,14 @@
         <div class="eyebrow">YOUR DIRECTION MATERIALS</div>
         <h1>一起把方向找出来</h1>
         <p class="lead result-lead">
-          这里不会直接宣布你的“天职”。你会看见答案如何一步步形成，并亲自决定哪些可能值得保留。
+          先看愿望和才能的交集，再用价值观筛选职业和人生方向。每一步都可以修改。
         </p>
         <div id="result-content"></div>
         <div class="result-actions">
           <button id="restart-button" class="secondary-button">重新探索</button>
+          <button id="view-answers-button" class="secondary-button">查看我的回答</button>
           <button id="copy-button" class="primary-button">复制我的结果</button>
+          <button id="download-button" class="secondary-button">下载结果</button>
         </div>
       </section>
     </main>

@@ -16,11 +16,13 @@ const questions = [
   { category: "愿望", prompt: "你对这个世界有什么不满或愤怒？", hint: "愤怒不一定要被消除，它可能在保护某种重要的价值。" }
 ];
 
-const state = { index: 0, answers: JSON.parse(localStorage.getItem("direction-explorer-answers") || "{}") };
+const ANSWERS_KEY = "direction-explorer-answers";
+const SUBMITTED_KEY = "direction-explorer-submitted-answers";
+const state = { index: 0, answers: JSON.parse(localStorage.getItem(ANSWERS_KEY) || "{}") };
 const $ = (id) => document.getElementById(id);
 
 function save() {
-  localStorage.setItem("direction-explorer-answers", JSON.stringify(state.answers));
+  localStorage.setItem(ANSWERS_KEY, JSON.stringify(state.answers));
 }
 
 function show(viewId) {
@@ -58,6 +60,7 @@ function next() {
     state.index += 1;
     renderQuestion();
   } else {
+    localStorage.setItem(SUBMITTED_KEY, JSON.stringify(state.answers));
     renderResults();
     show("results-view");
   }
@@ -141,9 +144,24 @@ function renderResults() {
       <p class="step-description">你不需要找到人生唯一答案。先选一个愿意用 7 天或 30 天亲自验证的方向。</p>
       <div id="final-directions"></div>
     </section>
+    <section id="responses-section" class="analysis-step hidden">
+      <div class="step-heading"><span class="step-number">A</span><h2>我的原始回答</h2></div>
+      <p class="step-description">这些是你刚才提交的原话。它们会保存在当前浏览器里，不会因为查看结果而消失。</p>
+      <div id="responses-list" class="response-list"></div>
+    </section>
   `;
+  renderResponses();
   bindAnalysisControls(matches, values);
   updateFinalDirections(matches, values);
+}
+
+function renderResponses() {
+  const list = $("responses-list");
+  if (!list) return;
+  list.innerHTML = questions.map((question, index) => {
+    const answer = state.answers[index] || "（暂时跳过）";
+    return `<div class="response-item"><strong>${index + 1}. ${question.category} · ${question.prompt}</strong><p>${answer}</p></div>`;
+  }).join("");
 }
 
 function bindAnalysisControls(matches, values) {
@@ -174,18 +192,62 @@ function updateFinalDirections(matches, values) {
 }
 
 function restart() {
-  if (!confirm("要清除当前回答并重新开始吗？")) return;
+  localStorage.setItem(SUBMITTED_KEY, JSON.stringify(state.answers));
+  if (!confirm("开始新的探索？刚才提交的回答已经保存，可以从首页再次查看。")) return;
   state.index = 0;
   state.answers = {};
-  localStorage.removeItem("direction-explorer-answers");
+  localStorage.removeItem(ANSWERS_KEY);
   show("intro-view");
+  renderIntro();
 }
 
 async function copyResults() {
-  const text = ["找到值得投入的方向", "", ...Array.from(document.querySelectorAll(".result-card h3")).map((el) => el.textContent)].join("\n");
-  await navigator.clipboard?.writeText(text);
-  $("copy-button").textContent = "已复制 ✓";
-  setTimeout(() => $("copy-button").textContent = "复制我的结果", 1600);
+  const text = ["找自己：我的回答", "", ...questions.map((question, index) => `${index + 1}. ${question.prompt}\n${state.answers[index] || "（暂时跳过）"}`)].join("\n\n");
+  try {
+    if (navigator.clipboard && window.isSecureContext) {
+      await navigator.clipboard.writeText(text);
+    } else {
+      const helper = document.createElement("textarea");
+      helper.value = text;
+      helper.style.position = "fixed";
+      helper.style.opacity = "0";
+      document.body.appendChild(helper);
+      helper.focus();
+      helper.select();
+      document.execCommand("copy");
+      helper.remove();
+    }
+    $("copy-button").textContent = "已复制 ✓";
+  } catch (error) {
+    $("copy-button").textContent = "复制失败，请下载";
+  }
+  setTimeout(() => $("copy-button").textContent = "复制我的结果", 1800);
+}
+
+function downloadAnswers() {
+  const text = ["找自己：我的回答", "", ...questions.map((question, index) => `${index + 1}. ${question.category} · ${question.prompt}\n${state.answers[index] || "（暂时跳过）"}`)].join("\n\n");
+  const blob = new Blob([text], { type: "text/plain;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = "找自己-我的回答.txt";
+  link.click();
+  URL.revokeObjectURL(url);
+}
+
+function showAnswers() {
+  const section = $("responses-section");
+  if (!section) return;
+  section.classList.remove("hidden");
+  section.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+function resumeSubmitted() {
+  const submitted = JSON.parse(localStorage.getItem(SUBMITTED_KEY) || "null");
+  if (!submitted) return;
+  state.answers = submitted;
+  renderResults();
+  show("results-view");
 }
 
 $("start-button").addEventListener("click", start);
@@ -193,4 +255,9 @@ $("next-button").addEventListener("click", next);
 $("back-button").addEventListener("click", previous);
 $("skip-button").addEventListener("click", skip);
 $("restart-button").addEventListener("click", restart);
+$("view-answers-button").addEventListener("click", showAnswers);
 $("copy-button").addEventListener("click", copyResults);
+$("download-button").addEventListener("click", downloadAnswers);
+$("resume-button").addEventListener("click", resumeSubmitted);
+
+$("resume-button").classList.toggle("hidden", !localStorage.getItem(SUBMITTED_KEY));
