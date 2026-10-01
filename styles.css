@@ -86,6 +86,10 @@ textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 4px rgba(85,123,
 .summary-card { min-height: 190px; padding: 20px; border: 1px solid var(--line); border-radius: 18px; background: rgba(255,255,255,.68); }
 .summary-card h3 { margin: 0 0 10px; color: var(--accent-dark); }
 .summary-card p { color: #5f6d75; line-height: 1.6; white-space: pre-wrap; }
+.summary-points { margin: 14px 0 0; padding-left: 19px; color: #60727a; line-height: 1.6; font-size: 14px; }
+.analysis-status { margin: 16px 0; padding: 12px 15px; border-radius: 12px; color: #60727a; background: rgba(255,255,255,.58); font-size: 14px; line-height: 1.5; }
+.analysis-status.ai-ready { color: #38624f; background: rgba(224,241,231,.8); }
+.analysis-status.local-ready { border: 1px dashed #b8cdd3; }
 .keyword-row { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0 14px; }
 .keyword { padding: 5px 9px; border-radius: 999px; color: var(--accent-dark); background: #e2edf0; font-size: 13px; }
 .life-card { padding: 22px; margin: 14px 0; border-left: 3px solid var(--warm); border-radius: 0 16px 16px 0; background: rgba(255,255,255,.68); }
@@ -97,16 +101,40 @@ textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 4px rgba(85,123,
 .career-top { display: flex; gap: 14px; align-items: flex-start; }
 .career-top input { width: 19px; height: 19px; margin-top: 4px; accent-color: var(--accent); }
 .career-top h3 { margin: 0 0 6px; font-size: 21px; }
+.recommendation-pill { flex: 0 0 auto; padding: 6px 9px; border-radius: 999px; color: var(--accent-dark); background: #e2edf0; font-size: 12px; white-space: nowrap; }
 .career-card p { margin: 7px 0 0; color: #5f6d75; line-height: 1.6; }
+.career-fit-heading { display: flex; justify-content: space-between; gap: 12px; margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--line); color: var(--accent-dark); }
+.career-fit-heading span { color: #60727a; font-size: 14px; }
+.career-fit-columns { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 10px; }
+.career-fit-columns h4 { margin: 0; color: var(--accent-dark); font-size: 14px; }
+.analysis-bullets { margin: 7px 0 0; padding-left: 19px; color: #5f6d75; font-size: 14px; line-height: 1.6; }
 .career-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px; }
 .career-meta div { padding: 12px; border-radius: 12px; background: rgba(234,242,244,.7); }
 .career-meta strong { display: block; margin-bottom: 4px; color: var(--accent-dark); font-size: 12px; }
+.detail-button { margin-top: 15px; padding: 10px 14px; font-size: 13px; }
+.career-details { margin-top: 15px; padding-top: 15px; border-top: 1px solid var(--line); }
+.salary-controls { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin: 18px 0 4px; color: var(--accent-dark); }
+.salary-controls strong { margin-right: 4px; font-size: 14px; }
+.career-detail-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.career-detail-grid div { padding: 12px; border-radius: 12px; background: rgba(234,242,244,.7); }
+.career-detail-grid strong, .case-block > strong { display: block; margin-bottom: 5px; color: var(--accent-dark); font-size: 12px; }
+.career-detail-grid span, .case-block { color: #5f6d75; line-height: 1.6; font-size: 14px; }
+.income-range { display: block; margin-bottom: 5px; color: var(--accent-dark); }
+.income-median { display: block; margin-bottom: 5px; color: #936b36; }
+.income-note { display: block; margin-top: 5px; font-size: 13px; }
+.case-block { margin-top: 14px; }
+.case-block ul { margin: 6px 0 0; padding-left: 20px; }
+.career-links { margin: 6px 0 0; padding-left: 20px; }
+.career-links a { color: var(--accent-dark); }
 .comparison-card { padding: 20px; margin: 14px 0; border: 1px solid var(--line); border-radius: 18px; background: rgba(255,255,255,.68); }
 .comparison-card h3 { margin: 0 0 14px; font-size: 22px; }
 .value-comparison { padding: 14px 0; border-top: 1px solid var(--line); }
 .value-comparison:first-of-type { border-top: 0; }
 .value-comparison-header { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 .fit-label { color: var(--accent-dark); font-weight: 700; }
+.overall-judgment { display: flex; justify-content: space-between; gap: 12px; margin: 0 0 10px; padding: 12px 14px; border-radius: 12px; color: #536b77; background: rgba(234,242,244,.7); }
+.overall-judgment strong { color: var(--accent-dark); }
+.constraint-line { margin-top: 9px !important; font-size: 14px; }
 .fit-bar { height: 7px; margin: 8px 0; overflow: hidden; border-radius: 99px; background: #e1eaed; }
 .fit-fill { height: 100%; border-radius: inherit; background: var(--accent); }
 .value-comparison p { margin: 0; color: #5f6d75; line-height: 1.6; }
@@ -125,6 +153,8 @@ textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 4px rgba(85,123,
 .match-check { flex: 0 0 auto; color: var(--accent-dark); white-space: nowrap; font-size: 14px; }
 .match-check input { width: 18px; height: 18px; margin-right: 7px; vertical-align: middle; accent-color: var(--accent); }
 .analysis-button { margin-top: 8px; }
+.next-step-button { display: block; width: 100%; margin-top: 18px; }
+.next-step-button:disabled { cursor: not-allowed; opacity: .45; transform: none; }
 .direction-choice { display: flex; gap: 14px; align-items: flex-start; }
 .direction-choice input { width: 18px; height: 18px; margin-top: 4px; accent-color: var(--accent); }
 .value-filter { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
@@ -155,6 +185,11 @@ textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 4px rgba(85,123,
   .material-list { grid-template-columns: 1fr; }
   .summary-grid { grid-template-columns: 1fr; }
   .career-meta { grid-template-columns: 1fr; }
+  .career-fit-columns { grid-template-columns: 1fr; }
+  .career-fit-heading, .overall-judgment { align-items: flex-start; flex-direction: column; }
+  .career-top { flex-wrap: wrap; }
+  .recommendation-pill { margin-left: 33px; }
+  .career-detail-grid { grid-template-columns: 1fr; }
   .match-card, .value-filter { align-items: flex-start; flex-direction: column; }
   .question-actions, .result-actions { align-items: stretch; flex-direction: column-reverse; }
   .question-actions .text-button { align-self: center; }
