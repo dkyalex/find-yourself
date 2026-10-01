@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>How to Find Fulfilling Work</title>
+    <link rel="stylesheet" href="../styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <section id="intro-view" class="view intro-view">
+        <div class="eyebrow">HOW TO FIND FULFILLING WORK</div>
+        <h1>how to find fulfilling work</h1>
+        <p class="lead">Explore possible directions from your strengths and dreams, then look at them through what you genuinely value.</p>
+        <button id="start-button" class="primary-button">Start finding your direction</button>
+        <button id="resume-button" class="secondary-button hidden">View my previous results</button>
+        <a class="secondary-button language-link" href="../">中文：找自己</a>
+        <p class="microcopy">15 questions + 1 life-design question · about 10 minutes · your answers stay in this browser</p>
+      </section>
+
+      <section id="question-view" class="view hidden">
+        <header class="question-header">
+          <button id="back-button" class="text-button">← Back</button>
+          <div class="progress-copy"><span id="question-number">Question 1 / 15</span></div>
+          <div class="progress-track"><div id="progress-bar" class="progress-bar"></div></div>
+        </header>
+        <div class="question-area">
+          <div id="category-label" class="eyebrow">Values</div>
+          <div class="question-title-row">
+            <h2 id="question-title"></h2>
+            <button id="question-help-button" class="help-button" aria-expanded="false" aria-controls="question-help">?</button>
+          </div>
+          <p id="question-hint" class="question-hint"></p>
+          <div id="question-help" class="help-panel hidden"></div>
+          <textarea id="answer-input" rows="7" placeholder="Write what honestly comes to mind. It does not need to be polished."></textarea>
+          <div class="question-actions">
+            <button id="skip-button" class="text-button">Skip for now</button>
+            <button id="next-button" class="primary-button">Next →</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="results-view" class="view hidden">
+        <div class="eyebrow">HOW TO FIND FULFILLING WORK</div>
+        <h1>Let’s find a direction</h1>
+        <p class="lead result-lead">First look at your strengths and dreams. Then choose directions and compare them with what matters to you.</p>
+        <nav id="results-nav" class="results-nav" aria-label="Results pages">
+          <button class="results-tab active" data-page="0">1 Understand yourself</button>
+          <button class="results-tab" data-page="1">2 Choose directions</button>
+          <button class="results-tab" data-page="2">3 Compare values</button>
+        </nav>
+        <div id="result-content"></div>
+        <section id="answers-panel" class="hidden" aria-live="polite"></section>
+        <div class="result-actions">
+          <button id="restart-button" class="secondary-button">Start over</button>
+          <button id="view-answers-button" class="secondary-button">View my answers</button>
+          <button id="copy-button" class="primary-button">Copy my results</button>
+          <button id="download-button" class="secondary-button">Download results</button>
+        </div>
+      </section>
+    </main>
+    <script src="app.js"></script>
+  </body>
+</html>
